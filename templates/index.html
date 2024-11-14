@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video en Tiempo Real</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <style>
+        #video-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        img {
+            border: 3px solid #00d1b2;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 640px;
+        }
+    </style>
+</head>
+<body>
+    <div id="video-container">
+        <img id="video-stream" alt="Video en tiempo real">
+    </div>
+
+    <script>
+        // Conectar al servidor SocketIO
+        const socket = io.connect('http://' + document.domain + ':' + location.port);
+
+        // Recibir el frame de video del servidor
+        socket.on('video_frame', (data) => {
+            const imgElement = document.getElementById('video-stream');
+            imgElement.src = data.imagen;
+        });
+    </script>
+</body>
+</html>
